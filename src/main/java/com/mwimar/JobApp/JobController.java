@@ -12,7 +12,12 @@ public class JobController {
     }
 
     @RequestMapping("addjob")
-    public String addjob(){
+    public String addJob(){
         return "addjob";
+    }
+
+    @RequestMapping("handleForm")
+    public String handleForm(){
+        return "success";
     }
 }
