@@ -37,7 +37,7 @@ public class JobController {
     @GetMapping("viewalljobs")
     public String viewJobs(Model m){
         List<JobPost> jobs = service.getAllJobs();
-        m.addAttribute("JobPosts", jobs);
+        m.addAttribute("jobPosts", jobs);
         return "viewalljobs";
     }
 }
