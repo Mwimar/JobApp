@@ -4,9 +4,13 @@ import com.mwimar.JobApp.model.JobPost;
 import com.mwimar.JobApp.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.awt.*;
+import java.util.List;
 
 @Controller
 public class JobController {
@@ -31,7 +35,9 @@ public class JobController {
     }
 
     @GetMapping("viewalljobs")
-    public String viewAllJobs(){
+    public String viewJobs(Model m){
+        List<JobPost> jobs = service.getAllJobs();
+        m.addAttribute("JobPosts", jobs);
         return "viewalljobs";
     }
 }
