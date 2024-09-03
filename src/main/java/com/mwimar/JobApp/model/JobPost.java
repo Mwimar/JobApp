@@ -1,10 +1,12 @@
 package com.mwimar.JobApp.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class JobPost {
     private int postId;
     private String postProfile;
