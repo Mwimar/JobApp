@@ -12,6 +12,13 @@ public class User {
     public User() {
     }
 
+    public User(int uid, String name, String email, String password) {
+        this.uid = uid;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     public int getUid() {
         return uid;
     }
