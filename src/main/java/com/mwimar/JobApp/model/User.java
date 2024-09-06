@@ -9,6 +9,9 @@ public class User {
     private String email;
     private String password;
 
+    public User() {
+    }
+
     public int getUid() {
         return uid;
     }
