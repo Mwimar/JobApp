@@ -13,9 +13,10 @@ public class JobService {
     @Autowired
     private JobRepo service;
 
-    public void addJob(JobPost jobPost){
+    public JobPost addJob(JobPost jobPost){
         service.addJob(jobPost);
 
+        return jobPost;
     };
 
     public List<JobPost> getAllJobs(){

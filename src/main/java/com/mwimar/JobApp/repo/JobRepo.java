@@ -25,4 +25,12 @@ public class JobRepo {
         System.out.println(jobs);
     }
 
+    public JobPost getJobById(int id) {
+        return jobs.stream()
+                .filter(job -> job.getPostId() == id) // Use getPostId() instead of getId()
+                .findFirst()
+                .orElse(null);
+    }
+
+
 }

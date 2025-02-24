@@ -1,43 +1,59 @@
 package com.mwimar.JobApp;
 
 import com.mwimar.JobApp.model.JobPost;
+import com.mwimar.JobApp.repo.JobRepo;
 import com.mwimar.JobApp.service.JobService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/jobPosts")  // Ensure this matches the frontend request
+@CrossOrigin(origins = "http://localhost:3000")  // Enable CORS
 public class JobController {
-    @Autowired
-    private JobService service;
 
+    private final JobService service;
+    private final JobRepo jobRepo;
 
-    @GetMapping({"/", "home"})
-    public String home(){
-        return "home";
+    public JobController(JobService service, JobRepo jobRepo) {
+        this.service = service;
+        this.jobRepo = jobRepo;
     }
 
-    @GetMapping("addjob")
-    public String addJob(){
-        return "addjob";
+    // Get all job posts
+    @GetMapping
+    public List<JobPost> getAllJobs() {
+        return service.getAllJobs();
     }
 
-    @PostMapping("handleForm")
-    public String handleForm(JobPost jobPost){
-        service.addJob(jobPost);
-        return "success";
+    // Get job by ID
+    @GetMapping("/{id}")
+    public JobPost getJobById(@PathVariable int id) {
+        return jobRepo.getallJobs().stream()
+                .filter(job -> job.getPostId() == id)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Job not found"));
     }
 
-    @GetMapping("viewalljobs")
-    public String viewJobs(Model m){
-        List<JobPost> jobs = service.getAllJobs();
-        m.addAttribute("jobPosts", jobs);
-        return "viewalljobs";
+    @PutMapping("/{id}")
+    public JobPost updateJob(@PathVariable int id, @RequestBody JobPost updatedJob) {
+        JobPost job = jobRepo.getallJobs().stream()
+                .filter(j -> j.getPostId() == id)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        job.setPostProfile(updatedJob.getPostProfile());
+        job.setPostDesc(updatedJob.getPostDesc());
+        job.setReqExperience(updatedJob.getReqExperience());
+        job.setPostTechStack(updatedJob.getPostTechStack());
+
+        return job;
+    }
+
+
+    // Add a job post
+    @PostMapping
+    public JobPost addJob(@RequestBody JobPost jobPost) {
+        return service.addJob(jobPost);
     }
 }
